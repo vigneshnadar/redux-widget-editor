@@ -4,8 +4,11 @@ import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
 
 
-const Widget =({widget}) => (
-    <li >{widget.text}</li>
+const Widget =({widget, dispatch}) => (
+    <li >{widget.id}  {widget.text}
+    <button onClick={e => (
+        dispatch({type : 'DELETE_WIDGET', id: widget.id})
+    )}>Delete</button></li>
 )
 
 let initialState ={
@@ -17,12 +20,14 @@ let initialState ={
 }
 
 
+const WidgetContainer = connect()(Widget)
+
 const WidgetList = ({widgets, dispatch}) => (
     <div>
         <h1>Widget List: ({widgets.length})</h1>
         <ul>
             {widgets.map(widget => (
-                <Widget widget={widget} key={widget.id}/>
+                <WidgetContainer widget={widget} key={widget.id}/>
             ))}
         </ul>
         <button onClick={e => (
@@ -43,6 +48,12 @@ const widgetReducer = (state = initialState, action) => {
                     {id: idAutoIncrement++, text: 'new widget'}
                 ]
             }
+        case 'DELETE_WIDGET':
+            return {
+                widgets : state.widgets.filter(widget => (
+                 widget.id !==action.id
+            ))}
+
         default:
             return state
     }
