@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {Provider, connect} from 'react-redux'
+import {createStore} from 'redux'
 
 
 let initialState ={
@@ -10,7 +12,35 @@ let initialState ={
     ]
 }
 
+
+const WidgetList = ({widgets}) => (
+    <div>
+        <h1>Widget List: ({widgets.length})</h1>
+    </div>
+)
+
+
+const widgetReducer = () => {
+    return initialState
+}
+
+
+let store = createStore(widgetReducer)
+
+
+const stateToPropertiesMapper = (state) => (
+    {
+        widgets : state.widgets
+    }
+)
+
+const App = connect(stateToPropertiesMapper)(WidgetList)
+
+
+
 ReactDOM.render(
-    <h1>Widget List Editor</h1>,
+    <Provider store={store}>
+    <App/>
+    </Provider>,
     document.getElementById('root')
 )
