@@ -34,7 +34,7 @@ export const widgetReducer = (state = {widgets: []}, action) => {
             return {
                 widgets: [
                     ...state.widgets,
-                    {id: idAutoIncrement++, text: 'new widget', widgetType: 'Paragraph'}
+                    {id: state.widgets.length+1, text: 'new widget', widgetType: 'Paragraph'}
                 ]
             }
         case DELETE_WIDGET:
