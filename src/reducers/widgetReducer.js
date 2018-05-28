@@ -1,10 +1,20 @@
-import {ADD_WIDGET, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,SELECT_WIDGET_TYPE, HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 let idAutoIncrement = 3
 
 export const widgetReducer = (state = {widgets: []}, action) => {
     switch (action.type) {
-        case 'SELECT_WIDGET_TYPE':
+        case HEADING_SIZE_CHANGED:
+            // alert("hello")
+            return {
+                widgets : state.widgets.map((widget) => {
+                    if(widget.id === action.id){
+                        widget.size = action.size
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+        case SELECT_WIDGET_TYPE:
             console.log(action)
             let newState = {
                 widgets: state.widgets.filter((widget) => {

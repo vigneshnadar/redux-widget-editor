@@ -1,20 +1,34 @@
 import {DELETE_WIDGET} from "../constants";
 import {connect} from "react-redux";
 import React from 'react'
+import {headingSizeChanged} from "../actions";
+
+
+const Heading = ({widget, headingSizeChanged}) => {
+
+    let selectElem
+
+    return (
+        <div>
+            <h1>Heading {widget.size}</h1>
+            <select onChange={() => headingSizeChanged(widget.id, selectElem.value)}
+                ref={node => selectElem = node}>
+                <option value="1">Heading 1</option>
+                <option value="2">Heading 2</option>
+                <option value="3">Heading 3</option>
+            </select>
+        </div>
+
+    )
+}
+
+const dispatchToPropsMapper = dispatch => ({
+    headingSizeChanged: (widgetId,newSize) => headingSizeChanged(dispatch,widgetId,newSize)
+})
 
 
 
-const Heading = () => (
-    <div>
-        <h1>Heading</h1>
-        <select>
-            <option>Heading 1</option>
-            <option>Heading 2</option>
-            <option>Heading 3</option>
-        </select>
-    </div>
-
-)
+const HeadingContainer = connect(null,dispatchToPropsMapper)(Heading)
 
 const Paragraph = () => (
     <div>
@@ -39,7 +53,7 @@ const Widget =({widget, dispatch}) => {
 
     return(<li>{widget.id} {widget.text}
 
-        <select onChange={e =>
+        <select value={widget.widgetType} onChange={e =>
             dispatch({type: 'SELECT_WIDGET_TYPE',
                 id: widget.id,
                 widgetType: selectElement.value
@@ -54,8 +68,8 @@ const Widget =({widget, dispatch}) => {
         )}>Delete
         </button>
         <div>
-            {widget.widgetType=='Heading' && <Heading/>}
-            {widget.widgetType=='Paragraph' &&<Paragraph/>}
+            {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}
+            {widget.widgetType=='Paragraph' &&<Paragraph />}
             {widget.widgetType=='List' &&<List/>}
             {widget.widgetType=='Image' &&<Image/>}
         </div>

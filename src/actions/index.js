@@ -1,4 +1,13 @@
-import {ADD_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+
+
+export const headingSizeChanged = (dispatch,widgetId, newSize) => (
+    dispatch({type: HEADING_SIZE_CHANGED,
+    id: widgetId,
+    size: newSize})
+)
+
+
 
 export const findAllWidgets = dispatch => {
     fetch('http://localhost:8080/api/widget')
