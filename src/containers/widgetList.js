@@ -18,6 +18,7 @@ class WidgetList extends Component {
         return (
             <div>
                 <h1>Widget List: ({this.props.widgets.length})</h1>
+                <button onClick={this.props.save}>Save</button>
                 <ul>
                     {this.props.widgets.map(widget => (
                         <WidgetContainer widget={widget} key={widget.id}/>

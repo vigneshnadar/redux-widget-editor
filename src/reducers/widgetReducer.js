@@ -4,6 +4,22 @@ let idAutoIncrement = 3
 
 export const widgetReducer = (state = {widgets: []}, action) => {
     switch (action.type) {
+        case 'SELECT_WIDGET_TYPE':
+            console.log(action)
+            let newState = {
+                widgets: state.widgets.filter((widget) => {
+                    if(widget.id == action.id) {
+                        widget.widgetType = action.widgetType
+                    }
+
+                    return true
+                })
+            }
+
+            console.log(newState)
+
+            return JSON.parse(JSON.stringify(newState))
+
         case SAVE:
             fetch('http://localhost:8080/api/widget/save',
                 {
@@ -18,7 +34,7 @@ export const widgetReducer = (state = {widgets: []}, action) => {
             return {
                 widgets: [
                     ...state.widgets,
-                    {id: idAutoIncrement++, text: 'new widget'}
+                    {id: idAutoIncrement++, text: 'new widget', widgetType: 'Paragraph'}
                 ]
             }
         case DELETE_WIDGET:
