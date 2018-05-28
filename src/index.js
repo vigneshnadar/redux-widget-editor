@@ -4,6 +4,17 @@ import {Provider, connect} from 'react-redux'
 import {createStore} from 'redux'
 
 
+
+const findAllWidgets = dispatch => {
+    fetch('http://localhost:8080/api/widget')
+        .then(response => response.json())
+        .then(widgets => dispatch({
+                type: 'FIND_ALL_WIDGETS',
+                widgets: widgets
+        }
+        ))
+}
+
 const Widget =({widget, dispatch}) => (
     <li >{widget.id}  {widget.text}
     <button onClick={e => (
@@ -28,6 +39,7 @@ class WidgetList extends Component {
 
     constructor(props){
         super(props)
+        this.props.findAllWidgets()
     }
 
     render() {
@@ -51,7 +63,7 @@ class WidgetList extends Component {
 
 let idAutoIncrement = 3
 
-const widgetReducer = (state = initialState, action) => {
+const widgetReducer = (state = {widgets: []}, action) => {
     switch (action.type) {
         case 'ADD_WIDGET':
             return {
@@ -65,6 +77,10 @@ const widgetReducer = (state = initialState, action) => {
                 widgets : state.widgets.filter(widget => (
                  widget.id !==action.id
             ))}
+        case 'FIND_ALL_WIDGETS':
+            return {
+                widgets : action.widgets
+                }
 
         default:
             return state
@@ -81,7 +97,12 @@ const stateToPropertiesMapper = (state) => (
     }
 )
 
-const App = connect(stateToPropertiesMapper)(WidgetList)
+
+const dispatchToPropsMapper = dispatch => ({
+    findAllWidgets: () => findAllWidgets(dispatch)
+})
+
+const App = connect(stateToPropertiesMapper, dispatchToPropsMapper)(WidgetList)
 
 
 
