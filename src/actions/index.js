@@ -1,10 +1,17 @@
-import {ADD_WIDGET,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 
 export const headingSizeChanged = (dispatch,widgetId, newSize) => (
     dispatch({type: HEADING_SIZE_CHANGED,
     id: widgetId,
     size: newSize})
+)
+
+
+export const headingTextChanged = (dispatch,widgetId, newText) => (
+    dispatch({type: HEADING_TEXT_CHANGED,
+        id: widgetId,
+        text: newText})
 )
 
 
