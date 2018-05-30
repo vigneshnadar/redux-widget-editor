@@ -1,7 +1,7 @@
 import {DELETE_WIDGET} from "../constants";
 import {connect} from "react-redux";
 import React from 'react'
-import {headingSizeChanged, headingTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
+import {headingSizeChanged, headingTextChanged,paragraphTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
 
 
 const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
@@ -39,6 +39,7 @@ const dispatchToPropsMapper = dispatch => ({
     imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName),
     linkUrlChanged: (widgetId,newUrl) => linkUrlChanged(dispatch,widgetId,newUrl),
+    paragraphTextChanged: (widgetId,newText) => paragraphTextChanged(dispatch,widgetId,newText),
 })
 
 
@@ -49,7 +50,7 @@ const stateToPropsMapper = state => ({
 
 const HeadingContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Heading)
 
-const Paragraph = () => (
+const List = () => (
     <div>
         <h1>Paragraph</h1>
         <textarea></textarea>
@@ -86,9 +87,37 @@ const Link = ({widget, preview, linkUrlChanged,headingTextChanged}) => {
 
 const LinkContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Link)
 
-const List = () => (
-    <h1>List</h1>
-)
+
+
+
+const Paragraph = ({widget, preview, paragraphTextChanged,widgetNameChanged}) => {
+
+    let paraText
+    let inputElem
+
+    return (
+        <div>
+            <div hidden={preview}>
+                <h1>Paragraph widget</h1>
+                <textarea onChange={() => paragraphTextChanged(widget.id, paraText.value)}
+                       value={widget.text} placeholder="Paragraph Text"
+                       ref={node => paraText = node}/>
+                <input onChange={() => widgetNameChanged(widget.id, inputElem.value)}
+                       value={widget.widgetName} placeholder="Widget Name"
+                       ref={nod => inputElem = nod}/>
+
+                <h3>Preview</h3>
+            </div>
+            {console.log(widget.text)}
+            {console.log(widget.widgetName)}
+            {widget.text != null && widget.text != "" && widget.text != "Paragraph Text" && <p>{widget.text}</p>}
+        </div>
+
+    )
+}
+
+
+const ParagraphContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Paragraph)
 
 
 const Image = ({widget, preview, imageUrlChanged,widgetNameChanged}) => {
@@ -99,7 +128,7 @@ const Image = ({widget, preview, imageUrlChanged,widgetNameChanged}) => {
     return (
         <div>
             <div hidden={preview}>
-                <h1>Image widget {widget.imageSrc}</h1>
+                <h1>List widget</h1>
                 <input onChange={() => imageUrlChanged(widget.id, inputElem.value)}
                        value={widget.imageSrc} placeholder="Image URL"
                        ref={node => inputElem = node}/>
@@ -147,7 +176,7 @@ const Widget =({widget,preview, dispatch}) => {
         </div>
         <div>
             {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}
-            {widget.widgetType=='Paragraph' &&<Paragraph />}
+            {widget.widgetType=='Paragraph' &&<ParagraphContainer widget={widget}/>}
             {widget.widgetType=='List' &&<List/>}
             {widget.widgetType=='Image' &&<ImageContainer widget={widget}/>}
             {widget.widgetType=='Link' &&<LinkContainer widget={widget}/>}

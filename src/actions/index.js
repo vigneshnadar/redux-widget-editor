@@ -1,4 +1,4 @@
-import {ADD_WIDGET,LINK_URL_CHANGED,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,LINK_URL_CHANGED,PARAGRAPH_TEXT_CHANGED,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 // imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
 //     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName)
@@ -38,6 +38,15 @@ export const headingTextChanged = (dispatch,widgetId, newText) => (
         id: widgetId,
         text: newText})
 )
+
+
+export const paragraphTextChanged = (dispatch,widgetId, newText) => (
+    dispatch({type: PARAGRAPH_TEXT_CHANGED,
+        id: widgetId,
+        text: newText})
+)
+
+
 
 
 
