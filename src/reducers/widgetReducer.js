@@ -1,4 +1,19 @@
-import {ADD_WIDGET,LINK_URL_CHANGED,LIST_TYPE_CHANGED,PARAGRAPH_TEXT_CHANGED,PREVIEW,WIDGET_NAME_CHANGED,IMAGE_URL_CHANGED,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {
+    ADD_WIDGET,
+    LINK_URL_CHANGED,
+    LIST_TYPE_CHANGED,
+    PARAGRAPH_TEXT_CHANGED,
+    PREVIEW,
+    WIDGET_NAME_CHANGED,
+    IMAGE_URL_CHANGED,
+    SELECT_WIDGET_TYPE,
+    HEADING_TEXT_CHANGED,
+    HEADING_SIZE_CHANGED,
+    DELETE_WIDGET,
+    FIND_ALL_WIDGETS,
+    SAVE,
+    MOVE_UP_WIDGET
+} from "../constants";
 
 let idAutoIncrement = 3
 
@@ -118,20 +133,53 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
 
             return state
         case ADD_WIDGET:
-            return {
-                widgets: [
+
+            let currentOrder = 1
+            if(state.widgets.length > 0){
+                currentOrder = state.widgets[state.widgets.length-1].widgetOrder +1
+            }
+
+            // return {
+            let newWidget = {widgets: [
                     ...state.widgets,
-                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph',listType: 'Unordered'}
+                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph',listType: 'Unordered',widgetOrder: currentOrder}
                 ]
+             }
+
+            return  {
+                widgets : newWidget.widgets.sort((a,b) => a.widgetOrder - b.widgetOrder)
             }
         case DELETE_WIDGET:
             return {
                 widgets : state.widgets.filter(widget => (
                     widget.id !==action.id
                 ))}
+        case MOVE_UP_WIDGET:
+                let prevIndex
+                let currentIndex
+
+                for(let i=0;i < state.widgets.length;i++){
+                    if(state.widgets[i].id == action.id){
+                        currentIndex=i
+                        break;
+                    }
+                    prevIndex = i
+                }
+                if(prevIndex !== null){
+                    let tempOrder = state.widgets[prevIndex].widgetOrder
+                    state.widgets[prevIndex].widgetOrder = state.widgets[currentIndex].widgetOrder
+                    state.widgets[currentIndex].widgetOrder = tempOrder
+                }
+
+
+            return  {
+                widgets : state.widgets.sort((a,b) => a.widgetOrder - b.widgetOrder)
+            }
+
+
         case FIND_ALL_WIDGETS:
             return  {
-                widgets : action.widgets
+                widgets : action.widgets.sort((a,b) => a.widgetOrder - b.widgetOrder)
             }
 
         default:

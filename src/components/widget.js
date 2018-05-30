@@ -1,7 +1,7 @@
-import {DELETE_WIDGET} from "../constants";
+import {DELETE_WIDGET,MOVE_UP_WIDGET,MOVE_DOWN_WIDGET} from "../constants";
 import {connect} from "react-redux";
 import React from 'react'
-import {headingSizeChanged, headingTextChanged,listTypeChanged,paragraphTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
+import {headingSizeChanged, moveUpWidget,headingTextChanged,listTypeChanged,paragraphTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
 
 
 const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
@@ -59,10 +59,10 @@ const List = ({widget, preview, headingTextChanged,listTypeChanged,widgetNameCha
                 <h3>Preview</h3>
             </div>
             {widget.listType=='Ordered' && <ol>{ widget.text.split("\n").map(eachLine => (
-                <li>{eachLine}</li>
+                <li key={eachLine}>{eachLine}</li>
             ))}</ol>}
             {widget.listType=='Unordered' && <ul>{ widget.text.split("\n").map(eachLine => (
-                <li>{eachLine}</li>
+                <li key={eachLine}>{eachLine}</li>
             ))}</ul>}
         </div>
 
@@ -79,6 +79,7 @@ const dispatchToPropsMapper = dispatch => ({
     linkUrlChanged: (widgetId,newUrl) => linkUrlChanged(dispatch,widgetId,newUrl),
     paragraphTextChanged: (widgetId,newText) => paragraphTextChanged(dispatch,widgetId,newText),
     listTypeChanged: (widgetId,newType) => listTypeChanged(dispatch,widgetId,newType),
+    moveUpWidget: (widgetId) => moveUpWidget(dispatch,widgetId),
 })
 
 
@@ -191,6 +192,15 @@ const Widget =({widget,preview, dispatch}) => {
     return(<li>
         <div hidden={preview}>
         {widget.id} {widget.text}
+
+          <button onClick={e => (
+                dispatch({type: MOVE_UP_WIDGET, id: widget.id, widget : widget})
+            )}>UP
+            </button>
+            <button onClick={e => (
+                dispatch({type: MOVE_DOWN_WIDGET, id: widget.id})
+            )}>Down
+            </button>
 
         <select value={widget.widgetType} onChange={e =>
             dispatch({type: 'SELECT_WIDGET_TYPE',
