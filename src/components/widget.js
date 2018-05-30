@@ -198,7 +198,7 @@ const Widget =({widget,preview, dispatch}) => {
             )}>UP
             </button>
             <button onClick={e => (
-                dispatch({type: MOVE_DOWN_WIDGET, id: widget.id})
+                dispatch({type: MOVE_DOWN_WIDGET, id: widget.id, widget : widget})
             )}>Down
             </button>
 

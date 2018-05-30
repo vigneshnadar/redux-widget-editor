@@ -12,7 +12,8 @@ import {
     DELETE_WIDGET,
     FIND_ALL_WIDGETS,
     SAVE,
-    MOVE_UP_WIDGET
+    MOVE_UP_WIDGET,
+    MOVE_DOWN_WIDGET
 } from "../constants";
 
 let idAutoIncrement = 3
@@ -172,8 +173,45 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
                 }
 
 
-            return  {
+
+            let sortedUpWidget =  {
                 widgets : state.widgets.sort((a,b) => a.widgetOrder - b.widgetOrder)
+            }
+
+            return {
+                widgets : sortedUpWidget.widgets.map((widget) => {
+                    return Object.assign({},widget)
+                })
+            }
+
+
+
+        case MOVE_DOWN_WIDGET:
+            let prevDownIndex
+            let currentDownIndex
+
+            for(let i=state.widgets.length-1;i >=0;i--){
+                if(state.widgets[i].id == action.id){
+                    currentDownIndex=i
+                    break;
+                }
+                prevDownIndex = i
+            }
+            if(prevDownIndex !== null){
+                let tempDownOrder = state.widgets[prevDownIndex].widgetOrder
+                state.widgets[prevDownIndex].widgetOrder = state.widgets[currentDownIndex].widgetOrder
+                state.widgets[currentDownIndex].widgetOrder = tempDownOrder
+            }
+
+
+            let sortedWidget =  {
+                widgets : state.widgets.sort((a,b) => a.widgetOrder - b.widgetOrder)
+            }
+
+            return {
+                widgets : sortedWidget.widgets.map((widget) => {
+                    return Object.assign({},widget)
+                })
             }
 
 
