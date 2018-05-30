@@ -113,6 +113,11 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
                 widgets: state.widgets.filter((widget) => {
                     if(widget.id == action.id) {
                         widget.widgetType = action.widgetType
+
+                        // console.log("widget size is"+widget.size)
+                        if(widget.size==0){
+                            widget.size=1
+                        }
                     }
 
                     return true
@@ -136,6 +141,7 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
         case ADD_WIDGET:
 
             let currentOrder = 1
+            let currentSize = 1
             if(state.widgets.length > 0){
                 currentOrder = state.widgets[state.widgets.length-1].widgetOrder +1
             }
@@ -143,7 +149,7 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
             // return {
             let newWidget = {widgets: [
                     ...state.widgets,
-                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph',listType: 'Unordered',widgetOrder: currentOrder}
+                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph',listType: 'Unordered',widgetOrder: currentOrder,size:currentSize}
                 ]
              }
 
