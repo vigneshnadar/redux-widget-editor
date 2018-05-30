@@ -1,4 +1,4 @@
-import {ADD_WIDGET,PREVIEW,WIDGET_NAME_CHANGED,IMAGE_URL_CHANGED,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,LINK_URL_CHANGED,PREVIEW,WIDGET_NAME_CHANGED,IMAGE_URL_CHANGED,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 let idAutoIncrement = 3
 
@@ -7,6 +7,16 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
     let newState
     switch (action.type) {
 
+        case LINK_URL_CHANGED:
+            // alert("hello")
+            return {
+                widgets : state.widgets.map((widget) => {
+                    if(widget.id === action.id){
+                        widget.linkHref = action.linkHref
+                    }
+                    return Object.assign({},widget)
+                })
+            }
 
         case IMAGE_URL_CHANGED:
             // alert("hello")

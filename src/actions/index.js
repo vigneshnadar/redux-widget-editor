@@ -1,8 +1,16 @@
-import {ADD_WIDGET,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,LINK_URL_CHANGED,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 // imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
 //     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName)
 
+
+
+
+export const linkUrlChanged = (dispatch,widgetId, newUrl) => (
+    dispatch({type: LINK_URL_CHANGED,
+        id: widgetId,
+        linkHref: newUrl})
+)
 
 
 export const imageUrlChanged = (dispatch,widgetId, newUrl) => (
