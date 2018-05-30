@@ -1,5 +1,22 @@
-import {ADD_WIDGET,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
+// imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
+//     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName)
+
+
+
+export const imageUrlChanged = (dispatch,widgetId, newUrl) => (
+    dispatch({type: IMAGE_URL_CHANGED,
+        id: widgetId,
+        imageSrc: newUrl})
+)
+
+
+export const widgetNameChanged = (dispatch,widgetId, newName) => (
+    dispatch({type: WIDGET_NAME_CHANGED,
+        id: widgetId,
+        widgetName: newName})
+)
 
 export const headingSizeChanged = (dispatch,widgetId, newSize) => (
     dispatch({type: HEADING_SIZE_CHANGED,

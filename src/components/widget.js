@@ -1,7 +1,7 @@
 import {DELETE_WIDGET} from "../constants";
 import {connect} from "react-redux";
 import React from 'react'
-import {headingSizeChanged, headingTextChanged} from "../actions";
+import {headingSizeChanged, headingTextChanged,imageUrlChanged,widgetNameChanged} from "../actions";
 
 
 const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
@@ -35,7 +35,9 @@ const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
 
 const dispatchToPropsMapper = dispatch => ({
     headingTextChanged: (widgetId,newText) => headingTextChanged(dispatch,widgetId,newText),
-    headingSizeChanged: (widgetId,newSize) => headingSizeChanged(dispatch,widgetId,newSize)
+    headingSizeChanged: (widgetId,newSize) => headingSizeChanged(dispatch,widgetId,newSize),
+    imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
+    widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName)
 })
 
 
@@ -54,12 +56,42 @@ const Paragraph = () => (
 
 )
 
-const Image = () => (
-    <h1>Image</h1>
-)
+const Image = ({widget, preview, imageUrlChanged,widgetNameChanged}) => {
+
+    let imageName
+    let inputElem
+
+    return (
+        <div>
+            <div hidden={preview}>
+                <h1>Image widget {widget.imageSrc}</h1>
+                <input onChange={() => imageUrlChanged(widget.id, inputElem.value)}
+                       value={widget.imageSrc} placeholder="Image URL"
+                       ref={node => inputElem = node}/>
+                <input onChange={() => widgetNameChanged(widget.id, imageName.value)}
+                       value={widget.widgetName} placeholder="Widget Name"
+                       ref={nod => imageName = nod}/>
+
+                <h3>Preview</h3>
+            </div>
+            {console.log(widget.imageSrc)}
+            {console.log(widget.widgetName)}
+            {widget.imageSrc != null && widget.imageSrc != "" && widget.imageSrc != "Image URL" && <img src={widget.imageSrc} alt={widget.widgetName} height="42" width="42"/>}
+        </div>
+
+    )
+}
+
+
+const ImageContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Image)
 
 const List = () => (
     <h1>List</h1>
+)
+
+
+const Link = () => (
+    <h1>Link</h1>
 )
 
 
@@ -80,6 +112,7 @@ const Widget =({widget,preview, dispatch}) => {
             <option>Paragraph</option>
             <option>List</option>
             <option>Image</option>
+            <option>Link</option>
         </select>
         <button onClick={e => (
             dispatch({type: DELETE_WIDGET, id: widget.id})
@@ -90,7 +123,8 @@ const Widget =({widget,preview, dispatch}) => {
             {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}
             {widget.widgetType=='Paragraph' &&<Paragraph />}
             {widget.widgetType=='List' &&<List/>}
-            {widget.widgetType=='Image' &&<Image/>}
+            {widget.widgetType=='Image' &&<ImageContainer widget={widget}/>}
+            {widget.widgetType=='Link' &&<Link/>}
         </div>
     </li>)
 }
