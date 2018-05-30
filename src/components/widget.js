@@ -12,11 +12,13 @@ const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
     return (
         <div>
             <div hidden={preview}>
-            <h1>Heading {widget.size}</h1>
-            <input onChange={() => headingTextChanged(widget.id, inputElem.value)}
+            {/*<h1>Heading Widget</h1>*/}
+                <br/>
+            <input className="form-control" onChange={() => headingTextChanged(widget.id, inputElem.value)}
                    value={widget.text}
                    ref={node => inputElem = node}/>
-            <select onChange={() => headingSizeChanged(widget.id, selectElem.value)}
+                <br/>
+            <select className="form-control" onChange={() => headingSizeChanged(widget.id, selectElem.value)}
                 ref={node => selectElem = node}
             value={widget.size}>
                 <option value="1">Heading 1</option>
@@ -43,19 +45,23 @@ const List = ({widget, preview, headingTextChanged,listTypeChanged,widgetNameCha
     return (
         <div>
             <div hidden={preview}>
-                <h1>List Widget</h1>
-                <textarea onChange={() => headingTextChanged(widget.id, inputElem.value)}
+                {/*<h1>List Widget</h1>*/}
+                <br/>
+                <textarea className="form-control" onChange={() => headingTextChanged(widget.id, inputElem.value)}
                        value={widget.text}
                        ref={node => inputElem = node} placeholder="Enter one list item per line"/>
-                <select onChange={() => listTypeChanged(widget.id, selectElem.value)}
+                <br/>
+                <select className="form-control" onChange={() => listTypeChanged(widget.id, selectElem.value)}
                         ref={node => selectElem = node}
                         value={widget.listType} defaultValue="Unordered">
                     <option value="Ordered">Ordered List</option>
                     <option value="Unordered">Unordered List</option>
                 </select>
+                <br/>
                 <input onChange={() => widgetNameChanged(widget.id, widgetName.value)}
                        value={widget.widgetName} placeholder="Widget Name"
                        ref={nod => widgetName = nod}/>
+                <br/>
                 <h3>Preview</h3>
             </div>
             {widget.listType=='Ordered' && <ol>{ widget.text.split("\n").map(eachLine => (
@@ -101,13 +107,16 @@ const Link = ({widget, preview, linkUrlChanged,headingTextChanged}) => {
     return (
         <div>
             <div hidden={preview}>
-                <h1>Image widget {widget.imageSrc}</h1>
-                <input onChange={() => linkUrlChanged(widget.id, inputElem.value)}
+                {/*<h1>Link widget</h1>*/}
+                <br/>
+                <input className="form-control" onChange={() => linkUrlChanged(widget.id, inputElem.value)}
                        value={widget.linkHref} placeholder="Link URL"
                        ref={node => inputElem = node}/>
-                <input onChange={() => headingTextChanged(widget.id, linkText.value)}
+                <br/>
+                <input className="form-control" onChange={() => headingTextChanged(widget.id, linkText.value)}
                        value={widget.text} placeholder="Link text"
                        ref={nod => linkText = nod}/>
+                <br/>
 
                 <h3>Preview</h3>
             </div>
@@ -133,14 +142,16 @@ const Paragraph = ({widget, preview, paragraphTextChanged,widgetNameChanged}) =>
     return (
         <div>
             <div hidden={preview}>
-                <h1>Paragraph widget</h1>
-                <textarea onChange={() => paragraphTextChanged(widget.id, paraText.value)}
+                {/*<h1>Paragraph widget</h1>*/}
+                <br/>
+                <textarea className="form-control" onChange={() => paragraphTextChanged(widget.id, paraText.value)}
                        value={widget.text} placeholder="Paragraph Text"
                        ref={node => paraText = node}/>
-                <input onChange={() => widgetNameChanged(widget.id, inputElem.value)}
+                <br/>
+                <input className="form-control" onChange={() => widgetNameChanged(widget.id, inputElem.value)}
                        value={widget.widgetName} placeholder="Widget Name"
                        ref={nod => inputElem = nod}/>
-
+                <br/>
                 <h3>Preview</h3>
             </div>
             {console.log(widget.text)}
@@ -163,11 +174,13 @@ const Image = ({widget, preview, imageUrlChanged,widgetNameChanged}) => {
     return (
         <div>
             <div hidden={preview}>
-                <h1>List widget</h1>
-                <input onChange={() => imageUrlChanged(widget.id, inputElem.value)}
+                {/*<h1>Image widget</h1>*/}
+                <br/>
+                <input className="form-control" onChange={() => imageUrlChanged(widget.id, inputElem.value)}
                        value={widget.imageSrc} placeholder="Image URL"
                        ref={node => inputElem = node}/>
-                <input onChange={() => widgetNameChanged(widget.id, imageName.value)}
+                <br/>
+                <input className="form-control" onChange={() => widgetNameChanged(widget.id, imageName.value)}
                        value={widget.widgetName} placeholder="Widget Name"
                        ref={nod => imageName = nod}/>
 
@@ -189,20 +202,29 @@ const Widget =({widget,preview, dispatch}) => {
 
     let selectElement
 
-    return(<li>
+    return(<li className="list-group-item">
         <div hidden={preview}>
-        {widget.id} {widget.text}
-
-          <button onClick={e => (
+        {/*{widget.id} {widget.text}*/}
+<div className="form-inline">
+            {widget.widgetType=='Heading' && <h3>Heading Widget</h3>}
+            {widget.widgetType=='Paragraph' && <h3>Paragraph Widget</h3>}
+            {widget.widgetType=='List' && <h3>List Widget</h3>}
+            {widget.widgetType=='Image' && <h3>Image Widget</h3>}
+            {widget.widgetType=='Link' && <h3>Link Widget</h3>}
+    &nbsp;&nbsp;
+            <div >
+          <button className="btn btn-warning" onClick={e => (
                 dispatch({type: MOVE_UP_WIDGET, id: widget.id, widget : widget})
             )}>UP
             </button>
-            <button onClick={e => (
+            &nbsp;
+            <button className="btn btn-warning" onClick={e => (
                 dispatch({type: MOVE_DOWN_WIDGET, id: widget.id, widget : widget})
             )}>Down
             </button>
+    &nbsp;
 
-        <select value={widget.widgetType} onChange={e =>
+        <select className="form-control" value={widget.widgetType} onChange={e =>
             dispatch({type: 'SELECT_WIDGET_TYPE',
                 id: widget.id,
                 widgetType: selectElement.value
@@ -213,10 +235,13 @@ const Widget =({widget,preview, dispatch}) => {
             <option>Image</option>
             <option>Link</option>
         </select>
-        <button onClick={e => (
+    &nbsp;
+        <button className="btn btn-danger" onClick={e => (
             dispatch({type: DELETE_WIDGET, id: widget.id})
-        )}>Delete
+        )}>x
         </button>
+            </div>
+</div>
         </div>
         <div>
             {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}

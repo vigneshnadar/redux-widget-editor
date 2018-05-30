@@ -16,18 +16,19 @@ class WidgetList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Widget List: ({this.props.widgets.length})</h1>
-                <button hidden={this.props.previewMode} onClick={this.props.save}>Save</button>
-                <button onClick={this.props.preview}>Preview</button>
-                <ul>
+                <button className="btn btn-success" hidden={this.props.previewMode} onClick={this.props.save}>Save</button>
+                &nbsp;
+                <button className="btn btn-dark" onClick={this.props.preview}>Preview</button>
+                <ul className="list-group">
                     {this.props.widgets.map(widget => (
                         <WidgetContainer preview={this.props.previewMode} widget={widget} key={widget.id}/>
                     ))}
                 </ul>
-                <button onClick={e => (
+                <button className="btn btn-danger" onClick={e => (
                     this.props.addWidget()
-                )}>Add Widget
+                )}>+
                 </button>
             </div>
         )
