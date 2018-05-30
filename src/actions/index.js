@@ -1,4 +1,4 @@
-import {ADD_WIDGET,LINK_URL_CHANGED,PARAGRAPH_TEXT_CHANGED,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,LINK_URL_CHANGED,LIST_TYPE_CHANGED,PARAGRAPH_TEXT_CHANGED,IMAGE_URL_CHANGED,WIDGET_NAME_CHANGED,HEADING_TEXT_CHANGED,PREVIEW,HEADING_SIZE_CHANGED, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 // imageUrlChanged: (widgetId,newUrl) => imageUrlChanged(dispatch,widgetId,newUrl),
 //     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName)
@@ -30,6 +30,14 @@ export const headingSizeChanged = (dispatch,widgetId, newSize) => (
     dispatch({type: HEADING_SIZE_CHANGED,
     id: widgetId,
     size: newSize})
+)
+
+
+
+export const listTypeChanged = (dispatch,widgetId, newType) => (
+    dispatch({type:  LIST_TYPE_CHANGED,
+        id: widgetId,
+        listType: newType})
 )
 
 

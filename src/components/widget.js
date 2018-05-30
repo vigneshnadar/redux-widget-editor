@@ -1,7 +1,7 @@
 import {DELETE_WIDGET} from "../constants";
 import {connect} from "react-redux";
 import React from 'react'
-import {headingSizeChanged, headingTextChanged,paragraphTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
+import {headingSizeChanged, headingTextChanged,listTypeChanged,paragraphTextChanged,linkUrlChanged,imageUrlChanged,widgetNameChanged} from "../actions";
 
 
 const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
@@ -33,6 +33,44 @@ const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
     )
 }
 
+
+const List = ({widget, preview, headingTextChanged,listTypeChanged,widgetNameChanged}) => {
+
+    let selectElem
+    let inputElem
+    let widgetName
+
+    return (
+        <div>
+            <div hidden={preview}>
+                <h1>List Widget</h1>
+                <textarea onChange={() => headingTextChanged(widget.id, inputElem.value)}
+                       value={widget.text}
+                       ref={node => inputElem = node} placeholder="Enter one list item per line"/>
+                <select onChange={() => listTypeChanged(widget.id, selectElem.value)}
+                        ref={node => selectElem = node}
+                        value={widget.listType} defaultValue="Unordered">
+                    <option value="Ordered">Ordered List</option>
+                    <option value="Unordered">Unordered List</option>
+                </select>
+                <input onChange={() => widgetNameChanged(widget.id, widgetName.value)}
+                       value={widget.widgetName} placeholder="Widget Name"
+                       ref={nod => widgetName = nod}/>
+                <h3>Preview</h3>
+            </div>
+            {widget.listType=='Ordered' && <ol>{ widget.text.split("\n").map(eachLine => (
+                <li>{eachLine}</li>
+            ))}</ol>}
+            {widget.listType=='Unordered' && <ul>{ widget.text.split("\n").map(eachLine => (
+                <li>{eachLine}</li>
+            ))}</ul>}
+        </div>
+
+    )
+}
+
+
+
 const dispatchToPropsMapper = dispatch => ({
     headingTextChanged: (widgetId,newText) => headingTextChanged(dispatch,widgetId,newText),
     headingSizeChanged: (widgetId,newSize) => headingSizeChanged(dispatch,widgetId,newSize),
@@ -40,6 +78,7 @@ const dispatchToPropsMapper = dispatch => ({
     widgetNameChanged: (widgetId,newName) => widgetNameChanged(dispatch,widgetId,newName),
     linkUrlChanged: (widgetId,newUrl) => linkUrlChanged(dispatch,widgetId,newUrl),
     paragraphTextChanged: (widgetId,newText) => paragraphTextChanged(dispatch,widgetId,newText),
+    listTypeChanged: (widgetId,newType) => listTypeChanged(dispatch,widgetId,newType),
 })
 
 
@@ -48,15 +87,10 @@ const stateToPropsMapper = state => ({
 })
 
 
+const ListContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(List)
 const HeadingContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Heading)
 
-const List = () => (
-    <div>
-        <h1>Paragraph</h1>
-        <textarea></textarea>
-    </div>
 
-)
 
 const Link = ({widget, preview, linkUrlChanged,headingTextChanged}) => {
 
@@ -177,7 +211,7 @@ const Widget =({widget,preview, dispatch}) => {
         <div>
             {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}
             {widget.widgetType=='Paragraph' &&<ParagraphContainer widget={widget}/>}
-            {widget.widgetType=='List' &&<List/>}
+            {widget.widgetType=='List' &&<ListContainer widget={widget}/>}
             {widget.widgetType=='Image' &&<ImageContainer widget={widget}/>}
             {widget.widgetType=='Link' &&<LinkContainer widget={widget}/>}
         </div>

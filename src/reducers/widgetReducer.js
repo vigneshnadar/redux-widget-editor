@@ -1,4 +1,4 @@
-import {ADD_WIDGET,LINK_URL_CHANGED,PARAGRAPH_TEXT_CHANGED,PREVIEW,WIDGET_NAME_CHANGED,IMAGE_URL_CHANGED,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,LINK_URL_CHANGED,LIST_TYPE_CHANGED,PARAGRAPH_TEXT_CHANGED,PREVIEW,WIDGET_NAME_CHANGED,IMAGE_URL_CHANGED,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 let idAutoIncrement = 3
 
@@ -79,6 +79,18 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
                     return Object.assign({},widget)
                 })
             }
+
+
+        case LIST_TYPE_CHANGED:
+            // alert("hello")
+            return {
+                widgets : state.widgets.map((widget) => {
+                    if(widget.id === action.id){
+                        widget.listType = action.listType
+                    }
+                    return Object.assign({},widget)
+                })
+            }
         case SELECT_WIDGET_TYPE:
             console.log(action)
             let newState = {
@@ -109,7 +121,7 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
             return {
                 widgets: [
                     ...state.widgets,
-                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph'}
+                    {id: state.widgets.length+1, text: '', widgetType: 'Paragraph',listType: 'Unordered'}
                 ]
             }
         case DELETE_WIDGET:
