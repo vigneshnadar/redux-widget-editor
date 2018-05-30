@@ -1,10 +1,17 @@
-import {ADD_WIDGET,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
+import {ADD_WIDGET,PREVIEW,SELECT_WIDGET_TYPE, HEADING_TEXT_CHANGED,HEADING_SIZE_CHANGED, DELETE_WIDGET, FIND_ALL_WIDGETS, SAVE} from "../constants";
 
 let idAutoIncrement = 3
 
-export const widgetReducer = (state = {widgets: []}, action) => {
+export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
+
+    let newState
     switch (action.type) {
 
+        case PREVIEW:
+            newState = Object.assign({}, state)
+            newState.preview = !newState.preview
+            // alert("hello")
+            return newState
 
         case HEADING_TEXT_CHANGED:
             // alert("hello")
@@ -66,7 +73,7 @@ export const widgetReducer = (state = {widgets: []}, action) => {
                     widget.id !==action.id
                 ))}
         case FIND_ALL_WIDGETS:
-            return {
+            return  {
                 widgets : action.widgets
             }
 

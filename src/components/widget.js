@@ -4,13 +4,14 @@ import React from 'react'
 import {headingSizeChanged, headingTextChanged} from "../actions";
 
 
-const Heading = ({widget, headingTextChanged,headingSizeChanged}) => {
+const Heading = ({widget, preview, headingTextChanged,headingSizeChanged}) => {
 
     let selectElem
     let inputElem
 
     return (
         <div>
+            <div hidden={preview}>
             <h1>Heading {widget.size}</h1>
             <input onChange={() => headingTextChanged(widget.id, inputElem.value)}
                    value={widget.text}
@@ -23,6 +24,7 @@ const Heading = ({widget, headingTextChanged,headingSizeChanged}) => {
                 <option value="3">Heading 3</option>
             </select>
             <h3>Preview</h3>
+            </div>
             {widget.size==1 && <h1>{widget.text}</h1>}
             {widget.size==2 && <h2>{widget.text}</h2>}
             {widget.size==3 && <h3>{widget.text}</h3>}
@@ -37,8 +39,12 @@ const dispatchToPropsMapper = dispatch => ({
 })
 
 
+const stateToPropsMapper = state => ({
+    preview: state.preview
+})
 
-const HeadingContainer = connect(null,dispatchToPropsMapper)(Heading)
+
+const HeadingContainer = connect(stateToPropsMapper,dispatchToPropsMapper)(Heading)
 
 const Paragraph = () => (
     <div>
@@ -57,11 +63,13 @@ const List = () => (
 )
 
 
-const Widget =({widget, dispatch}) => {
+const Widget =({widget,preview, dispatch}) => {
 
     let selectElement
 
-    return(<li>{widget.id} {widget.text}
+    return(<li>
+        <div hidden={preview}>
+        {widget.id} {widget.text}
 
         <select value={widget.widgetType} onChange={e =>
             dispatch({type: 'SELECT_WIDGET_TYPE',
@@ -77,6 +85,7 @@ const Widget =({widget, dispatch}) => {
             dispatch({type: DELETE_WIDGET, id: widget.id})
         )}>Delete
         </button>
+        </div>
         <div>
             {widget.widgetType=='Heading' && <HeadingContainer widget={widget}/>}
             {widget.widgetType=='Paragraph' &&<Paragraph />}
@@ -86,4 +95,6 @@ const Widget =({widget, dispatch}) => {
     </li>)
 }
 
-export const WidgetContainer = connect()(Widget)
+export const WidgetContainer = connect(state => ({
+    preview: state.preview
+}))(Widget)
