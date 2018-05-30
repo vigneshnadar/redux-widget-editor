@@ -58,7 +58,7 @@ const List = ({widget, preview, headingTextChanged,listTypeChanged,widgetNameCha
                     <option value="Unordered">Unordered List</option>
                 </select>
                 <br/>
-                <input onChange={() => widgetNameChanged(widget.id, widgetName.value)}
+                <input className="form-control" onChange={() => widgetNameChanged(widget.id, widgetName.value)}
                        value={widget.widgetName} placeholder="Widget Name"
                        ref={nod => widgetName = nod}/>
                 <br/>
@@ -122,7 +122,7 @@ const Link = ({widget, preview, linkUrlChanged,headingTextChanged}) => {
             </div>
             {console.log(widget.linkHref)}
             {console.log(widget.text)}
-            {widget.linkHref != null && widget.linkHref != "" && widget.linkHref != "Link URL" && <a href={widget.linkHref}>{widget.text}</a>}
+            {widget.linkHref != null && widget.linkHref != "" && widget.linkHref != "Link URL" && <a href={widget.linkHref} target="_blank">{widget.text}</a>}
         </div>
 
     )
@@ -188,7 +188,7 @@ const Image = ({widget, preview, imageUrlChanged,widgetNameChanged}) => {
             </div>
             {console.log(widget.imageSrc)}
             {console.log(widget.widgetName)}
-            {widget.imageSrc != null && widget.imageSrc != "" && widget.imageSrc != "Image URL" && <img src={widget.imageSrc} alt={widget.widgetName} height="42" width="42"/>}
+            {widget.imageSrc != null && widget.imageSrc != "" && widget.imageSrc != "Image URL" && <img className="rounded card-img" src={widget.imageSrc} alt={widget.widgetName} />}
         </div>
 
     )

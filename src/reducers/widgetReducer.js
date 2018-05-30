@@ -156,7 +156,7 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
                     widget.id !==action.id
                 ))}
         case MOVE_UP_WIDGET:
-                let prevIndex
+                let prevIndex=null
                 let currentIndex
 
                 for(let i=0;i < state.widgets.length;i++){
@@ -187,7 +187,7 @@ export const widgetReducer = (state = {widgets: [],preview:false}, action) => {
 
 
         case MOVE_DOWN_WIDGET:
-            let prevDownIndex
+            let prevDownIndex = null
             let currentDownIndex
 
             for(let i=state.widgets.length-1;i >=0;i--){
